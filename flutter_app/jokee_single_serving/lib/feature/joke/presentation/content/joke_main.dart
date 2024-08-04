@@ -64,8 +64,20 @@ class JokeMain extends StatelessWidget {
             children: [
               const Column(
                 children: [
-                  Text('Handicrafted by'),
-                  Text('Jim HLS'),
+                  Text(
+                    'Handicrafted by',
+                    style: TextStyle(
+                      color: JokeColor.footerText,
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    'Jim HLS',
+                    style: TextStyle(
+                      color: JokeColor.mainTextColor,
+                      fontSize: 10,
+                    ),
+                  ),
                 ],
               ),
               Container(
@@ -89,7 +101,7 @@ class JokeMain extends StatelessWidget {
         ),
         width: double.infinity,
         decoration: const BoxDecoration(
-          color: Colors.green,
+          color: JokeColor.bannerColor,
         ),
         child: const Column(
           children: [
@@ -114,13 +126,21 @@ class JokeMain extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Text(
         joke,
+        style: const TextStyle(
+          color: JokeColor.mainTextColor,
+        ),
       ),
     );
   }
 
   Widget _buildNoJoke() {
     return const Center(
-        child: Text("That's all the jokes for today! Come back another day!"));
+        child: Text(
+      "That's all the jokes for today! Come back another day!",
+      style: TextStyle(
+        color: JokeColor.mainTextColor,
+      ),
+    ));
   }
 
   Widget _buildVote(BuildContext context) {
@@ -164,7 +184,8 @@ class JokeMain extends StatelessWidget {
               'This appis created as part of HIsolutions program. The materials contained on this website are provided for general information only and do not constitute any form of advice. HLS assumes no responsibility for the accuracy of any particular statement and accepts no liability for any loss or damage which may,arise from reliance on the information contained on this site.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 8,
+                color: JokeColor.footerText,
+                fontSize: 10,
               ),
             ),
             Padding(
@@ -174,7 +195,8 @@ class JokeMain extends StatelessWidget {
               child: Text(
                 'Copyright 2021 HLS',
                 style: TextStyle(
-                  fontSize: 10,
+                  color: JokeColor.mainTextColor,
+                  fontSize: 12,
                 ),
               ),
             ),
