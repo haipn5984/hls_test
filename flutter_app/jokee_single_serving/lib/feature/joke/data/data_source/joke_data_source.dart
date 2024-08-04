@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:jokee_single_serving/core/local/prefs.dart';
 import 'package:jokee_single_serving/feature/joke/domain/entities/joke_model.dart';
@@ -11,14 +12,19 @@ abstract class JokeDataSource {
 class JokeDataSourceImpl implements JokeDataSource {
   @override
   Future<List<JokeModel>> getJoke() async {
-    final listJsonEncode = PrefsService.getReadJoke().split(';');
-    return listJsonEncode
-        .map(
-          (e) => JokeModel.fromJson(
-            jsonDecode(e),
-          ),
-        )
-        .toList();
+    try {
+      final listJsonEncode = PrefsService.getReadJoke().split(';');
+      return listJsonEncode
+          .map(
+            (e) => JokeModel.fromJson(
+              jsonDecode(e),
+            ),
+          )
+          .toList();
+    } catch (e) {
+      log(e.toString());
+      return [];
+    }
   }
 
   @override

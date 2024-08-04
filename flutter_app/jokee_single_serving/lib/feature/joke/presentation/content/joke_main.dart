@@ -19,15 +19,13 @@ class JokeMain extends StatelessWidget {
           ),
           _buildHeader(),
           _buildBanner(),
-          const SizedBox(
-            height: 60,
-          ),
           BlocBuilder<JokeBloc, JokeState>(
             buildWhen: (previous, current) => previous.joke != current.joke,
             builder: (context, state) {
               return Expanded(
                 child: state.joke != null
-                    ? _buildJokeContent(state.joke?.joke ?? '')
+                    ? SingleChildScrollView(
+                        child: _buildJokeContent(state.joke?.joke ?? ''))
                     : _buildNoJoke(),
               );
             },
@@ -37,7 +35,11 @@ class JokeMain extends StatelessWidget {
               return state.joke;
             },
             builder: (context, state) {
-              return state != null ? _buildVote() : const SizedBox.shrink();
+              return state != null
+                  ? _buildVote(
+                      context,
+                    )
+                  : const SizedBox.shrink();
             },
           ),
           const Divider(),
@@ -83,7 +85,7 @@ class JokeMain extends StatelessWidget {
 
   Widget _buildBanner() => Container(
         padding: const EdgeInsets.symmetric(
-          vertical: 40,
+          vertical: 32,
         ),
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -107,18 +109,23 @@ class JokeMain extends StatelessWidget {
       );
 
   Widget _buildJokeContent(String joke) {
-    return Text(
-      joke,
+    return Container(
+      alignment: Alignment.topLeft,
+      padding: const EdgeInsets.all(16),
+      child: Text(
+        joke,
+      ),
     );
   }
 
   Widget _buildNoJoke() {
-    return const Text("That's all the jokes for today! Come back another day!");
+    return const Center(
+        child: Text("That's all the jokes for today! Come back another day!"));
   }
 
-  Widget _buildVote() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(
+  Widget _buildVote(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
         horizontal: 30,
       ),
       child: Row(
@@ -127,10 +134,20 @@ class JokeMain extends StatelessWidget {
           JokeButton(
             title: 'This is Funny!',
             color: JokeColor.agreeButtonColor,
+            onPress: () {
+              context.read<JokeBloc>().add(
+                    const JokeEvent.onVoted(agree: true),
+                  );
+            },
           ),
           JokeButton(
             title: 'This is not Funny.',
             color: JokeColor.disAgreeButtonColor,
+            onPress: () {
+              context.read<JokeBloc>().add(
+                    const JokeEvent.onVoted(agree: false),
+                  );
+            },
           ),
         ],
       ),
@@ -146,6 +163,9 @@ class JokeMain extends StatelessWidget {
             Text(
               'This appis created as part of HIsolutions program. The materials contained on this website are provided for general information only and do not constitute any form of advice. HLS assumes no responsibility for the accuracy of any particular statement and accepts no liability for any loss or damage which may,arise from reliance on the information contained on this site.',
               textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 8,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -153,6 +173,9 @@ class JokeMain extends StatelessWidget {
               ),
               child: Text(
                 'Copyright 2021 HLS',
+                style: TextStyle(
+                  fontSize: 10,
+                ),
               ),
             ),
           ],

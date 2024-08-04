@@ -9,4 +9,9 @@ class JokeReposisotyImpl implements JokeRepository {
   Future<List<JokeModel>> getJokes() async {
     return _dataSource.getJoke();
   }
+
+  @override
+  Future<bool> saveJokes(List<JokeModel> listJoke) {
+    return _dataSource.saveJoke(listJoke);
+  }
 }
