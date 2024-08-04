@@ -5,17 +5,22 @@ void main() {
   listProcess(inputList());
 }
 
+//Get input from user and process to array
 List<int> inputList([retry = false]) {
   try {
     if (retry) print('The list you entered is invalid, please re-enter it!');
     print('Enter five, posotive intergrs,each number separated by space');
+    //get input
     String? input = stdin.readLineSync();
     final list = <int>[];
+    //split string to array char
     input?.split(' ').forEach(
       (element) {
+        //conver to int, skip if elemt is Empty
         if (element.trim() != '') list.add(int.parse(element.trim()));
       },
     );
+    //return if list have 5 element, if not re-enter;
     if (list.length == 5) {
       print('Input list: $list');
       return list;
@@ -23,10 +28,12 @@ List<int> inputList([retry = false]) {
       return inputList(true);
     }
   } catch (e) {
+    //re-enter if have exception
     return inputList(true);
   }
 }
 
+//Clear Terminal screen
 void clearScreen() {
   if (Platform.isWindows) {
     print(Process.runSync('cls', [], runInShell: true).stdout);
@@ -35,6 +42,7 @@ void clearScreen() {
   }
 }
 
+//Get sum of an array with number of elements
 double getSum(List<int> input, {int numberOfE = 4}) {
   double sum = 0;
   for (var i = 0; i < numberOfE; i++) {
@@ -43,13 +51,15 @@ double getSum(List<int> input, {int numberOfE = 4}) {
   return sum;
 }
 
+//get Result
 void listProcess(List<int> list) {
   list.sort();
-  sumCalculate(list);
+  minMaxCalculate(list);
   listInfo(list);
 }
 
-void sumCalculate(List<int> list) {
+//Get min,max of 4/5 elements of array
+void minMaxCalculate(List<int> list) {
   try {
     print('Minimum sum of 4 of 5 elements: ${getSum(list)}');
     print('Maximum sum of 4 of 5 elements: ${getSum(
@@ -60,6 +70,7 @@ void sumCalculate(List<int> list) {
   }
 }
 
+//get other info of array
 void listInfo(List<int> list) {
   try {
     final total = getSum(list, numberOfE: 5);
